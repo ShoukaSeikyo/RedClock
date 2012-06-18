@@ -1,3 +1,5 @@
 name: RedClock
+author: ShoukaSeikyo
+website: http://shoukylife.fr.cr
 main: com.shoukaseikyo.redclock.Main
-version: 1.0.6
+version: 1.0.8

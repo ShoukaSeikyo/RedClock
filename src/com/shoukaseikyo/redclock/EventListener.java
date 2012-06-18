@@ -33,17 +33,19 @@ public class EventListener implements Listener {
 		if(main.permissions == false || e.getPlayer().hasPermission("redclock.use")) {
 			if(!(e.getLine(0).equalsIgnoreCase("redblock")) && !(e.getLine(0).equalsIgnoreCase("redclock")) || e.getLines().length < 3)
 				return;
-			long START = timeParser(e.getLine(1));
-			long STOP = timeParser(e.getLine(2));
-			boolean ON = (e.getLine(3).equalsIgnoreCase("OFF")) ? false : true;
-			main.BLOCKS.add(new RedBlock(e.getPlayer().getName(),START, STOP, ON, e.getBlock()));
+			if(!(e.getLine(1).equalsIgnoreCase("on")) && !(e.getLine(1).equalsIgnoreCase("off")) && !(e.getLine(1).equalsIgnoreCase("pulse")))
+				return;
+			String STYPE = e.getLine(1).toUpperCase();
+			long START = timeParser(e.getLine(2));
+			long STOP = timeParser(e.getLine(3));
+			main.BLOCKS.add(new RedBlock(e.getPlayer().getName(),START, STOP, STYPE, e.getBlock()));
 		}
 	}
 	
 	@EventHandler
 	public void Interact(PlayerInteractEvent e) {
 		Player p = e.getPlayer();
-		if(p.hasPermission("redclock.admin") || p.isOp() && e.getAction() == Action.RIGHT_CLICK_BLOCK && (e.getClickedBlock().getTypeId() == 68 || e.getClickedBlock().getTypeId() == 63)) {
+		if((p.hasPermission("redclock.admin") || p.isOp()) && e.getAction() == Action.RIGHT_CLICK_BLOCK && (e.getClickedBlock().getTypeId() == 68 || e.getClickedBlock().getTypeId() == 63)) {
 			Location LOCATION = e.getClickedBlock().getLocation();
 			for(RedBlock bl : main.BLOCKS) {
 				if(bl.getLocation().equals(LOCATION)) {
